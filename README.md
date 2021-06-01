@@ -393,17 +393,33 @@ class StockAdmin(admin.ModelAdmin):
 
         if request.method == "POST": # <--- New logic to read the uploaded csv and create Stock data
             stocks = []
+
             file = request.FILES['stock_data']
             decoded_file = file.read().decode('utf-8').splitlines()
             reader = csv.reader(decoded_file)
             next(reader) # Skipping header rows
             for row in reader:
-                stocks.append(Stock(
-                    name=row[1],
+                stock = Stock(
                     symbol=row[0],
-                    listing_date=datetime.strptime(row[3], "%d-%b-%Y").date(),
-                    isin=row[6]
-                ))
+                    name=row[1],
+                    listing_date=datetime.strptime(row[2], "%d-%b-%Y").date(),
+                    isin=row[3]
+                )
+
+                market_cap = row[4].strip().lower()
+                if market_cap == 'smallcap':
+                    stock.market_cap = MarketCapitalization.SMALL
+                elif market_cap == 'midcap':
+                    stock.market_cap = MarketCapitalization.MID
+                elif market_cap == 'largecap':
+                    stock.market_cap = MarketCapitalization.LARGE
+                else:
+                    stock.market_cap = MarketCapitalization.UNKNOWN
+
+                category, created = Category.objects.get_or_create(name__iexact=row[5], defaults={'name': row[5]})
+                stock.category = category
+
+                stocks.append(stock)
 
             Stock.objects.bulk_create(stocks)
 
