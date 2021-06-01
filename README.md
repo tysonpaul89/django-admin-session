@@ -1,5 +1,7 @@
 # Django Admin Tutorial
 
+Working code of this is present in this repo [https://github.com/tysonpaul89/django-admin-session](https://github.com/tysonpaul89/django-admin-session)
+
 ## Installation and Project Setup
 
 Before we start installing django framework, we need to setup a virtual environment.
@@ -429,7 +431,7 @@ class StockAdmin(admin.ModelAdmin):
         return render(request, 'upload-stock-data.html', context)
 ```
 
-Finally to display our new upload link in the index page of the admin site, we have to override the admin template. To do so we have to copy the **app_list.html** file from the Django's installation path in our virtual environment directory.
+Next we need to display our new upload link in the index page of the admin site, we have to override the admin template. To do so we have to copy the **app_list.html** file from the Django's installation path in our virtual environment directory.
 
 ``` bash
 cp ./.env/lib/python3.8/site-packages/django/contrib/admin/templates/admin/app_list.html ./templates/admin/
@@ -469,3 +471,5 @@ Then in the **app_list.html** file we have to add the following code.
 Now browse to the admin site index page and should see the upload link like this
 
 <img src="./assets/images/admin_stock_upload_link.png" />
+
+Now click on the link and upload the csv file in [this](https://github.com/tysonpaul89/django-admin-session/tree/main/csv_data) location and you should see new data in the stocks page.
