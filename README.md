@@ -428,3 +428,44 @@ class StockAdmin(admin.ModelAdmin):
 
         return render(request, 'upload-stock-data.html', context)
 ```
+
+Finally to display our new upload link in the index page of the admin site, we have to override the admin template. To do so we have to copy the **app_list.html** file from the Django's installation path in our virtual environment directory.
+
+``` bash
+cp ./.env/lib/python3.8/site-packages/django/contrib/admin/templates/admin/app_list.html ./templates/admin/
+```
+
+Then in the **app_list.html** file we have to add the following code.
+
+``` html
+{% load i18n %}
+
+{% if app_list %}
+  {% for app in app_list %}
+    ....
+  {% endfor %}
+
+  <!-- Add the following code to display the link -->
+  <div class="module">
+    <table>
+        <caption>
+            <a href="#" class="section" title="Upload">Upload</a>
+        </caption>
+        <tbody>
+            <tr>
+                <th scope="row"><a href="{% url 'admin:upload' %}">Stock Data Upload</a></th>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+{% else %}
+  <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+{% endif %}
+
+```
+
+Now browse to the admin site index page and should see the upload link like this
+
+<img src="./assets/images/admin_stock_upload_link.png" />

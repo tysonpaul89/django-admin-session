@@ -609,13 +609,125 @@ admin.site.register(Category, CategoryAdmin)
     <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Upload Stock Data<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"."</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span> <span class="hljs-attr">enctype</span>=<span class="hljs-string">"multipart/form-data"</span>&gt;</span>
         {% csrf_token %}
-        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"file"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"stock_data"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"stock_data"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"file"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"stock_data"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"stock_data"</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">".csv"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
 {% endblock %}
 </div></code></pre>
-<p>To test the new url, browse http://127.0.0.1:8000/admin/stock/stock/upload-stock-data/ and you should get this page.</p>
+<p>To test the new url, browse http://127.0.0.1:8000/admin/stock/stock/upload-stock-data/ and you should get an error page.</p>
+<img src="./assets/images/upload-stock-data-error.png" height="400px" />
+<p>The error occurred because we didn't configure the django where to look for the templates.</p>
+<p>Lets add the template path in the <strong>my_stocks/settings.py</strong></p>
+<pre class="hljs"><code><div>TEMPLATES = [
+    {
+        <span class="hljs-string">'BACKEND'</span>: <span class="hljs-string">'django.template.backends.django.DjangoTemplates'</span>,
+        <span class="hljs-string">'DIRS'</span>: [BASE_DIR / <span class="hljs-string">'templates'</span>], <span class="hljs-comment"># &lt;--- Add the template path like this</span>
+        <span class="hljs-string">'APP_DIRS'</span>: <span class="hljs-literal">True</span>,
+        <span class="hljs-string">'OPTIONS'</span>: {
+            <span class="hljs-string">'context_processors'</span>: [
+                <span class="hljs-string">'django.template.context_processors.debug'</span>,
+                <span class="hljs-string">'django.template.context_processors.request'</span>,
+                <span class="hljs-string">'django.contrib.auth.context_processors.auth'</span>,
+                <span class="hljs-string">'django.contrib.messages.context_processors.messages'</span>,
+            ],
+        },
+    },
+]
+</div></code></pre>
+<p>Now reload the url and you should see the actual page like this</p>
 <img src="./assets/images/upload-stock-data.png" height="400px" />
+<p>The html that we added in the <strong>templates/upload-stock-data.html</strong> file is a form to upload a csv file.</p>
+<p>Lets modify the <strong>upload_stock_data</strong> method in the <strong>StockAdmin</strong> to read and create <strong>Stock</strong> data from the csv file.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># stock/admin.py</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StockAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    list_display = (<span class="hljs-string">"symbol"</span>, <span class="hljs-string">"name"</span>, <span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>, <span class="hljs-string">"isin"</span>)
+    search_fields = (<span class="hljs-string">"name"</span>, <span class="hljs-string">"symbol"</span>, <span class="hljs-string">"isin"</span>)
+    list_filter = (<span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_urls</span><span class="hljs-params">(self)</span>:</span> <span class="hljs-comment"># &lt;--- Adds our custom url to the admin page.</span>
+        urls = super().get_urls()
+        my_urls = [
+            path(<span class="hljs-string">'upload-stock-data/'</span>, self.admin_site.admin_view(self.upload_stock_data), name=<span class="hljs-string">"upload"</span>),
+        ]
+        <span class="hljs-keyword">return</span> my_urls + urls
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">upload_stock_data</span><span class="hljs-params">(self, request)</span>:</span> <span class="hljs-comment"># &lt;--- Function to render the contents for the new url</span>
+        context = dict(
+            <span class="hljs-comment"># Include common variables for rendering the admin template.</span>
+            self.admin_site.each_context(request),
+        )
+
+        <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">"POST"</span>: <span class="hljs-comment"># &lt;--- New logic to read the uploaded csv and create Stock data</span>
+            stocks = []
+
+            file = request.FILES[<span class="hljs-string">'stock_data'</span>]
+            decoded_file = file.read().decode(<span class="hljs-string">'utf-8'</span>).splitlines()
+            reader = csv.reader(decoded_file)
+            next(reader) <span class="hljs-comment"># Skipping header rows</span>
+            <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> reader:
+                stock = Stock(
+                    symbol=row[<span class="hljs-number">0</span>],
+                    name=row[<span class="hljs-number">1</span>],
+                    listing_date=datetime.strptime(row[<span class="hljs-number">2</span>], <span class="hljs-string">"%d-%b-%Y"</span>).date(),
+                    isin=row[<span class="hljs-number">3</span>]
+                )
+
+                market_cap = row[<span class="hljs-number">4</span>].strip().lower()
+                <span class="hljs-keyword">if</span> market_cap == <span class="hljs-string">'smallcap'</span>:
+                    stock.market_cap = MarketCapitalization.SMALL
+                <span class="hljs-keyword">elif</span> market_cap == <span class="hljs-string">'midcap'</span>:
+                    stock.market_cap = MarketCapitalization.MID
+                <span class="hljs-keyword">elif</span> market_cap == <span class="hljs-string">'largecap'</span>:
+                    stock.market_cap = MarketCapitalization.LARGE
+                <span class="hljs-keyword">else</span>:
+                    stock.market_cap = MarketCapitalization.UNKNOWN
+
+                category, created = Category.objects.get_or_create(name__iexact=row[<span class="hljs-number">5</span>], defaults={<span class="hljs-string">'name'</span>: row[<span class="hljs-number">5</span>]})
+                stock.category = category
+
+                stocks.append(stock)
+
+            Stock.objects.bulk_create(stocks)
+
+            <span class="hljs-comment"># Redirect user to admin index page completing the upload</span>
+            <span class="hljs-keyword">return</span> redirect(reverse_lazy(<span class="hljs-string">'admin:index'</span>))
+
+        <span class="hljs-keyword">return</span> render(request, <span class="hljs-string">'upload-stock-data.html'</span>, context)
+</div></code></pre>
+<p>Finally to display our new upload link in the index page of the admin site, we have to override the admin template. To do so we have to copy the <strong>app_list.html</strong> file from the Django's installation path in our virtual environment directory.</p>
+<pre class="hljs"><code><div>cp ./.env/lib/python3.8/site-packages/django/contrib/admin/templates/admin/app_list.html ./templates/admin/
+</div></code></pre>
+<p>Then in the <strong>app_list.html</strong> file we have to add the following code.</p>
+<pre class="hljs"><code><div>{% load i18n %}
+
+{% if app_list %}
+  {% for app in app_list %}
+    ....
+  {% endfor %}
+
+  <span class="hljs-comment">&lt;!-- Add the following code to display the link --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"module"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">caption</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"section"</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"Upload"</span>&gt;</span>Upload<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">caption</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">th</span> <span class="hljs-attr">scope</span>=<span class="hljs-string">"row"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{% url 'admin:upload' %}"</span>&gt;</span>Stock Data Upload<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+{% else %}
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{% translate 'You don’t have permission to view or edit anything.' %}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+{% endif %}
+
+</div></code></pre>
+<p>Now browse to the admin site index page and should see the upload link like this</p>
+<img src="./assets/images/admin_stock_upload_link.png" />
 
 </body>
 </html>
