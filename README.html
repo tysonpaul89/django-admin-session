@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="django-admin-tutorial">Django Admin Tutorial</h1>
+<h2 id="installation-and-project-setup">Installation and Project Setup</h2>
+<p>Before we start installing django framework, we need to setup a virtual environment.</p>
+<p><strong>Why we need a virtual environment</strong>
+The operating systems like Linux and Mac OS uses python internally. So installing other python packages in the default python is not recommended.
+The solution to this is to create a python virtual environment. When we create a virtual environment, the python binaries is copied to a new folder. Anything we install in this virtual environment will installed in this python folder.</p>
+<p>The following command will create a virtual environment and activates it.</p>
+<pre class="hljs"><code><div>python3 -m venv .env
+
+<span class="hljs-built_in">source</span>  .env/bin/activate
+</div></code></pre>
+<p>Now lets install django</p>
+<pre class="hljs"><code><div>pip install django
+</div></code></pre>
+<p>To create a project run this command</p>
+<pre class="hljs"><code><div>django-admin startproject my_stocks
+</div></code></pre>
+<p>The <strong>startproject</strong> command will create the following configuration files in your current directory.</p>
+<pre class="hljs"><code><div>.
+├── manage.py <span class="hljs-comment"># &lt;--- Utility file for administrative tasks</span>
+└── my_stocks
+   ├── asgi.py
+   ├── __init__.py
+   ├── settings.py <span class="hljs-comment"># &lt;--- File in which all the important settings are stored.</span>
+   ├── urls.py
+   └── wsgi.py
+</div></code></pre>
+<p>Now lets run the project by running this command.</p>
+<pre class="hljs"><code><div>python manage.py runserver
+</div></code></pre>
+<p>Now open the browser and browse http://localhost:8000 or http://127.0.0.1:8000 and you should be getting following screen:</p>
+<p><strong>NOTE:</strong> To stop the running application press <strong>Ctrl + C</strong></p>
+<img src="./assets/images/start_screen.png" width="800px" height="500px" />
+<h2 id="login-to-django-admin">Login to Django Admin</h2>
+<p>To use the Django's admin portal, we need to initialize our database and create a super user account.</p>
+<p>First stop the application by pressing <strong>Ctrl + C</strong> and run the following commands:</p>
+<pre class="hljs"><code><div>python manage.py migrate
+
+python manage.py createsuperuser
+</div></code></pre>
+<p>Here, the <strong>migrate</strong> command will create necessary database table to be used by the django framework.[Default database for Django is SQLite]</p>
+<p>The <strong>createsuperuser</strong> command is to create a super user. This command will prompt some details like username, email and password.</p>
+<p>Once you complete creating the super user, start the application by running <code>python manage.py runserver</code> command and browse http://localhost:8000/admin</p>
+<p>You will got a login screen like the following</p>
+<img src="./assets/images/admin_login.png" width="600px" height="400px" />
+<p>Now login with the username and password of the super user and you will redirected to the admin index page.</p>
+<img src="./assets/images/admin_index_first_time.png" width="600px" height="400px" />
+<p>Here only the <strong>Authentication and Authorization</strong> section will be present which is the Django's default pages to manage user and permissions.</p>
+<h2 id="create-an-app">Create an app</h2>
+<p>To create our for application run the following command:</p>
+<pre class="hljs"><code><div>python manage.py startapp stock
+</div></code></pre>
+<p><strong>startapp</strong> command will create separate folder in our project directory.</p>
+<pre class="hljs"><code><div>.
+├── manage.py
+├── my_stocks
+│   ├── asgi.py
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── README.md
+└── stock <span class="hljs-comment"># &lt;--- New application folder</span>
+    ├── admin.py <span class="hljs-comment"># &lt;--- File to control model display in the admin site.</span>
+    ├── apps.py
+    ├── __init__.py
+    ├── migrations
+    │   └── __init__.py
+    ├── models.py <span class="hljs-comment"># &lt;--- File to store the model information.</span>
+    ├── tests.py
+    └── views.py
+</div></code></pre>
+<p>Next step after creating app is to add it in the <code>my_stocks/settings.py</code> so that django can recognize it.</p>
+<p>Open the <code>my_stocks/settings.py</code> add add our application name in the setting as shown below.</p>
+<pre class="hljs"><code><div>INSTALLED_APPS = [
+    <span class="hljs-string">'django.contrib.admin'</span>,
+    <span class="hljs-string">'django.contrib.auth'</span>,
+    <span class="hljs-string">'django.contrib.contenttypes'</span>,
+    <span class="hljs-string">'django.contrib.sessions'</span>,
+    <span class="hljs-string">'django.contrib.messages'</span>,
+    <span class="hljs-string">'django.contrib.staticfiles'</span>,
+    <span class="hljs-string">'stock'</span> <span class="hljs-comment"># &lt;--- Add the app name here</span>
+]
+</div></code></pre>
+<h2 id="defining-model-and-registering-it-in-admin-site">Defining Model and Registering it in Admin site</h2>
+<p>Model in django is mapped to a single table in a database. Each attribute of the model class represents a database field.</p>
+<p>To define our model, lets open the <code>stock/models.py</code> and add the following:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># stock/models.py</span>
+
+<span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Category</span><span class="hljs-params">(models.Model)</span>:</span>
+    name = models.CharField(
+        max_length=<span class="hljs-number">100</span>,
+        unique=<span class="hljs-literal">True</span>,
+        verbose_name=<span class="hljs-string">"Stock Category"</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.name
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MarketCapitalization</span><span class="hljs-params">(models.TextChoices)</span>:</span>
+    UNKNOWN = (<span class="hljs-string">"U"</span>, <span class="hljs-string">"Unknown"</span>)
+    SMALL = (<span class="hljs-string">"S"</span>, <span class="hljs-string">"Smallcap"</span>)
+    MID = (<span class="hljs-string">"M"</span>, <span class="hljs-string">"Midcap"</span>)
+    LARGE = (<span class="hljs-string">"L"</span>, <span class="hljs-string">"Largecap"</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stock</span><span class="hljs-params">(models.Model)</span>:</span>
+    name = models.CharField(max_length=<span class="hljs-number">100</span>, verbose_name=<span class="hljs-string">"Company Name"</span>)
+    symbol = models.CharField(max_length=<span class="hljs-number">10</span>, verbose_name=<span class="hljs-string">"Stock Symbol"</span>)
+    listing_date = models.DateField(verbose_name=<span class="hljs-string">"Stock Listing Date"</span>)
+    isin = models.CharField(max_length=<span class="hljs-number">20</span>, unique=<span class="hljs-literal">True</span>, verbose_name=<span class="hljs-string">"ISIN Number"</span>)
+    market_cap = models.CharField(
+        max_length=<span class="hljs-number">1</span>,
+        choices=MarketCapitalization.choices,
+        default=MarketCapitalization.UNKNOWN,
+        verbose_name=<span class="hljs-string">"Market Capitalization"</span>
+    )
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, null=<span class="hljs-literal">True</span>, blank=<span class="hljs-literal">True</span>)
+
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f"<span class="hljs-subst">{self.name}</span>(<span class="hljs-subst">{self.symbol}</span>)"</span>
+
+</div></code></pre>
+<p>Next we have to make these model changes into our database for that run the following:</p>
+<pre class="hljs"><code><div>python manage.py makemigrations <span class="hljs-comment"># &lt;--- This command will create a script to create table in database</span>
+
+python manage.py migrate <span class="hljs-comment"># &lt;--- This will execute the scripts created by the above makemigration command</span>
+</div></code></pre>
+<img src="./assets/images/model_migration.png" width="700px" height="300px" />
+<p>Finally to list our model in the admin site we have to register in from the <code>stock/admin.py</code> like the following:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># stock/admin.py</span>
+
+<span class="hljs-keyword">from</span> django.contrib <span class="hljs-keyword">import</span> admin
+<span class="hljs-keyword">from</span> stock.models <span class="hljs-keyword">import</span> Stock, Category
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CategoryAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StockAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    <span class="hljs-keyword">pass</span>
+
+
+admin.site.register(Stock, StockAdmin)
+admin.site.register(Category, CategoryAdmin)
+</div></code></pre>
+<p>Now run start the application and browse the admin site and you should get a screen like this:</p>
+<img src="./assets/images/stock_admin.png" width="500px" height="300px" />
+<img src="./assets/images/stock_listin_before.png" width="700px" height="300px" />
+<h2 id="enabling-list-sort-search-and-filter">Enabling List, Sort, Search and Filter</h2>
+<p>Let's add some data see how it is listed in the stocks page.</p>
+<p>Click on the &quot;ADD STOCK&quot; button add a stock data.</p>
+<img src="./assets/images/create_stock.png" width="700px" height="300px" />
+<img src="./assets/images/stock_list_0.png" width="400px" height="300px" />
+<p>The list is currently showing only the string representation of the <strong>stock.models.Stock</strong> model class.</p>
+<p>To list the fields from the models, we have to add <a href="https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display">list_display</a> property our <strong>stock.admin.StockAdmin</strong> model admin class.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># stock/admin.py</span>
+
+<span class="hljs-keyword">from</span> django.contrib <span class="hljs-keyword">import</span> admin
+<span class="hljs-keyword">from</span> stock.models <span class="hljs-keyword">import</span> Stock, Category
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CategoryAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StockAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    list_display = (<span class="hljs-string">"symbol"</span>, <span class="hljs-string">"name"</span>, <span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>, <span class="hljs-string">"isin"</span>) <span class="hljs-comment"># &lt;--- Add this to your code</span>
+
+
+admin.site.register(Stock, StockAdmin)
+admin.site.register(Category, CategoryAdmin)
+</div></code></pre>
+<p>Now go back to browser and refresh the site, the given fields will be listed with sorting functionality.</p>
+<img src="./assets/images/stock_list_display.png" />
+<p>Now we need to enable search functionality. For that we cab use the <a href="https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.search_fields">search_fields</a> property. Note that django will perform search only in the fields listed in the <a href="https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.search_fields">search_fields</a> property.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># stock/admin.py</span>
+
+<span class="hljs-keyword">from</span> django.contrib <span class="hljs-keyword">import</span> admin
+<span class="hljs-keyword">from</span> stock.models <span class="hljs-keyword">import</span> Stock, Category
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CategoryAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StockAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    list_display = (<span class="hljs-string">"symbol"</span>, <span class="hljs-string">"name"</span>, <span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>, <span class="hljs-string">"isin"</span>)
+    search_fields = (<span class="hljs-string">"name"</span>, <span class="hljs-string">"symbol"</span>, <span class="hljs-string">"isin"</span>) <span class="hljs-comment"># &lt;--- Add this to your code</span>
+
+
+admin.site.register(Stock, StockAdmin)
+admin.site.register(Category, CategoryAdmin)
+</div></code></pre>
+<img src="./assets/images/stock_search_fields.png" />
+<p>Finally lets add a few filter to the page using the <a href="https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_filter">list_filter</a> property.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># stock/admin.py</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StockAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    list_display = (<span class="hljs-string">"symbol"</span>, <span class="hljs-string">"name"</span>, <span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>, <span class="hljs-string">"isin"</span>)
+    search_fields = (<span class="hljs-string">"name"</span>, <span class="hljs-string">"symbol"</span>)
+    list_filter = (<span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>) <span class="hljs-comment"># &lt;--- Add this to your code</span>
+
+</div></code></pre>
+<img src="./assets/images/list_filter.png" />
+<h2 id="add-a-custom-page-to-the-admin-site">Add a custom page to the admin site</h2>
+<p>To add a custom page to the admin we have use the <a href="https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_urls">get_urls</a> method.</p>
+<p>Modify the <strong>StockAdmin</strong> class to add a new url and a view function to render its contents.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># stock/admin.py</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StockAdmin</span><span class="hljs-params">(admin.ModelAdmin)</span>:</span>
+    list_display = (<span class="hljs-string">"symbol"</span>, <span class="hljs-string">"name"</span>, <span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>, <span class="hljs-string">"isin"</span>)
+    search_fields = (<span class="hljs-string">"name"</span>, <span class="hljs-string">"symbol"</span>, <span class="hljs-string">"isin"</span>)
+    list_filter = (<span class="hljs-string">"market_cap"</span>, <span class="hljs-string">"category"</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_urls</span><span class="hljs-params">(self)</span>:</span> <span class="hljs-comment"># &lt;--- Adds our custom url to the admin page.</span>
+        urls = super().get_urls()
+        my_urls = [
+            path(<span class="hljs-string">'upload-stock-data/'</span>, self.admin_site.admin_view(self.upload_stock_data), name=<span class="hljs-string">"upload"</span>),
+        ]
+        <span class="hljs-keyword">return</span> my_urls + urls
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">upload_stock_data</span><span class="hljs-params">(self, request)</span>:</span> <span class="hljs-comment"># &lt;--- Function to render the contents for the new url</span>
+        context = dict(
+            <span class="hljs-comment"># Include common variables for rendering the admin template.</span>
+            self.admin_site.each_context(request),
+        )
+
+        <span class="hljs-keyword">return</span> render(request, <span class="hljs-string">'upload-stock-data.html'</span>, context)
+</div></code></pre>
+<p>Now we have to create an empty file named <strong>upload-stock-data.html</strong> in a new directory named <strong>templates</strong> at the project root.</p>
+<pre class="hljs"><code><div>.
+├── db.sqlite3
+├── manage.py
+├── my_stocks
+├── stock
+│   ├── admin.py
+|   .
+└── templates <span class="hljs-comment"># &lt;--- New directory</span>
+    └── upload-stock-data.html <span class="hljs-comment"># &lt;--- New template file</span>
+</div></code></pre>
+<p>Lets add some content to the <strong>templates/upload-stock-data.html</strong> file:</p>
+<pre class="hljs"><code><div>{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Upload Stock Data<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"."</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"post"</span> <span class="hljs-attr">enctype</span>=<span class="hljs-string">"multipart/form-data"</span>&gt;</span>
+        {% csrf_token %}
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"file"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"stock_data"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"stock_data"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+{% endblock %}
+</div></code></pre>
+<p>To test the new url, browse http://127.0.0.1:8000/admin/stock/stock/upload-stock-data/ and you should get this page.</p>
+<img src="./assets/images/upload-stock-data.png" height="400px" />
+
+</body>
+</html>
