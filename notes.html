@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>README.md</title>
+<title>notes.md</title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
@@ -366,7 +366,12 @@ code {
     });
   </script>
 <h1 id="django-admin-tutorial">Django Admin Tutorial</h1>
+<p>Django is a Python-based free and open-source web framework that follows the model–template–views (MTV) architectural pattern.</p>
+<p>The framework emphasizes reusability and &quot;pluggability&quot; of components, less code, low coupling, rapid development, and the principle of don't repeat yourself.</p>
+<p>Django also provides an optional administrative create, read, update and delete interface that is generated dynamically through introspection and configured via admin models.</p>
+<p>Django was created in the fall of 2003, when the web programmers at the Lawrence Journal-World newspaper, Adrian Holovaty and Simon Willison, began using Python to build Ellington CMS.</p>
 <h2 id="installation-and-project-setup">Installation and Project Setup</h2>
+<p><strong>Working code of this is present in this repo <a href="https://github.com/tysonpaul89/django-admin-session">https://github.com/tysonpaul89/django-admin-session</a></strong></p>
 <p>Before we start installing django framework, we need to setup a virtual environment.</p>
 <p><strong>Why we need a virtual environment</strong>
 The operating systems like Linux and Mac OS uses python internally. So installing other python packages in the default python is not recommended.
@@ -695,7 +700,7 @@ admin.site.register(Category, CategoryAdmin)
 
         <span class="hljs-keyword">return</span> render(request, <span class="hljs-string">'upload-stock-data.html'</span>, context)
 </div></code></pre>
-<p>Finally to display our new upload link in the index page of the admin site, we have to override the admin template. To do so we have to copy the <strong>app_list.html</strong> file from the Django's installation path in our virtual environment directory.</p>
+<p>Next we need to display our new upload link in the index page of the admin site, we have to override the admin template. To do so we have to copy the <strong>app_list.html</strong> file from the Django's installation path in our virtual environment directory.</p>
 <pre class="hljs"><code><div>cp ./.env/lib/python3.8/site-packages/django/contrib/admin/templates/admin/app_list.html ./templates/admin/
 </div></code></pre>
 <p>Then in the <strong>app_list.html</strong> file we have to add the following code.</p>
@@ -728,6 +733,9 @@ admin.site.register(Category, CategoryAdmin)
 </div></code></pre>
 <p>Now browse to the admin site index page and should see the upload link like this</p>
 <img src="./assets/images/admin_stock_upload_link.png" />
+<p>Now click on the link and upload the csv file in <a href="https://github.com/tysonpaul89/django-admin-session/tree/main/csv_data">this</a> location and you should see new data in the stocks page.</p>
+<h1 id="django-admin-themes">Django admin themes</h1>
+<p>https://github.com/originalankur/awesome-django-admin#alternative-themes</p>
 
 </body>
 </html>

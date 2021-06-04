@@ -1,8 +1,16 @@
 # Django Admin Tutorial
 
-Working code of this is present in this repo [https://github.com/tysonpaul89/django-admin-session](https://github.com/tysonpaul89/django-admin-session)
+Django is a Python-based free and open-source web framework that follows the model–template–views (MTV) architectural pattern.
+
+The framework emphasizes reusability and "pluggability" of components, less code, low coupling, rapid development, and the principle of don't repeat yourself.
+
+Django also provides an optional administrative create, read, update and delete interface that is generated dynamically through introspection and configured via admin models.
+
+Django was created in the fall of 2003, when the web programmers at the Lawrence Journal-World newspaper, Adrian Holovaty and Simon Willison, began using Python to build Ellington CMS.
 
 ## Installation and Project Setup
+
+**Working code of this is present in this repo [https://github.com/tysonpaul89/django-admin-session](https://github.com/tysonpaul89/django-admin-session)**
 
 Before we start installing django framework, we need to setup a virtual environment.
 

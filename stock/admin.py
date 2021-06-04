@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.urls import path
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User, Group
 
 from stock.models import MarketCapitalization, Stock, Category
 
@@ -62,6 +63,10 @@ class StockAdmin(admin.ModelAdmin):
             return redirect(reverse_lazy('admin:index'))
 
         return render(request, 'upload-stock-data.html', context)
+
+# To unregister models
+admin.site.unregister(User)
+admin.site.unregister(Group)
 
 admin.site.register(Stock, StockAdmin)
 admin.site.register(Category, CategoryAdmin)
